@@ -1,0 +1,81 @@
+{
+    "title": "ACute COPD Exacerbation Prediction Tool",
+    "appLayout": {
+      "mainTabs": {
+        "number": 3,
+        "titles": ["Predict", "About", "Terms"]
+      },
+      "subTabs": {
+        "number":3,
+        "titles":["Predict", "About", "Terms"]
+      },
+      "colorScheme":"startup"
+
+    },
+    "data": {
+      "classNames": ["Year", "State", "Age", "Sex"],
+      "valueNames": ["qalyLost", "indirectCost", "directCost"]
+
+    },
+    "tabs":[
+      {
+        "title" : "Predict",
+        "inputId" : "tab1",
+        "tabType": "graph",
+        "mainBoxColor" : "info",
+        "tabNumber" : 1,
+        "dropdownChoices": [{
+          "label":"Direct Cost",
+          "valueName": "directCost"
+        }, {
+          "label":"Indirect Cost",
+          "valueName": "indirectCost"
+        }],
+        "dropdown": false,
+        "dataInput": "userInput",
+        "pngDownloadName" : "predictGraph",
+        "sidebarChoicesNumber" : 14,
+        "sidebarShownLabels" : ["Sex", "Age", "Smoker", "Oxygen", "Statin","LAMA",
+                             "LABA", "ICS", "Azithromycin", "FEV1", "BMI", "SGRQ", "Exacerbations Last Year",
+                             "Severe Exacerbations Last Year"],
+        "sidebarKeys": ["sex", "age", "smoker", "oxygen", "statin", "LAMA", "LABA", "ICS",
+                        "azithromycin", "FEV1", "BMI", "SGRQ", "LastYrExacCount", "LastYrSevExacCount"],
+        "dataTypes": ["CategoryInput", "IntervalInput", "CategoryInput", "CategoryInput",
+                        "CategoryInput","CategoryInput","CategoryInput","CategoryInput",
+                        "CategoryInput","IntervalInput","IntervalInput","IntervalInput",
+                        "IntervalInput","IntervalInput"],
+        "upper": [1,90,1,1,1,1,1,1,1,5,60,100,15,10],
+        "lower": [0,40,0,0,0,0,0,0,0,0,10,0,0,0],
+        "chartViewOptions":["X-Axis", "Y-Axis", "State 1", "State 2", "Year","Color",
+                             "Size"],
+        "chartViewColumns" : [["Age", "indirectCost", "directCost", "Year"],
+                           ["Age", "indirectCost", "directCost", "Year"],
+                           "generate",
+                           "generate",
+                           "generate",
+                           ["Age", "Sex", "None"],
+                           ["indirectCost", "directCost", "None"]],
+        "chartViewColumnTypes" : ["x-axis", "y-axis", "state", "state", "year", "color",
+                      "size"]
+
+      },
+      {
+        "title": "About",
+        "inputId": "tab2",
+        "tabType": "text",
+        "tabNumber" : 2,
+        "markdownFileName" : "about.Rmd",
+        "imageId" : "image1",
+        "imFile" : "logos2.png"
+      },
+      {
+        "title": "Terms",
+        "inputId": "tab3",
+        "tabType": "text",
+        "tabNumber" : 3,
+        "markdownFileName" : "disclaimer.rmd",
+        "imageId" : null,
+        "imFile" : null
+      }
+    ]
+}
