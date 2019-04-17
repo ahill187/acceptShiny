@@ -144,17 +144,16 @@ TabItemDashGraph <- R6Class(
         for(i in 1:self$sidebarChoicesNumber){
 
             if(self$dataTypes[i] == "IntervalInput"){
-                inputElement = sliderInput(inputId = self$sidebarShownIds[i],
+                inputElement = numericInput(inputId = self$sidebarShownIds[i],
                             label = self$sidebarShownLabels[i],
                             min = self$lower[i],
                             max = self$upper[i],
                             value = self$lower[i])
             } else if(self$dataTypes[i] == "CategoryInput") {
-                inputElement = radioButtons(inputId = self$sidebarShownIds[i],
+                inputElement = div(style="display:inline-block; padding-right:15px;",
+                                   checkboxInput(inputId = self$sidebarShownIds[i],
                                             label = self$sidebarShownLabels[i],
-                                            choices = c("Yes"=1,
-                                                        "No"=0),
-                                            inline = TRUE)
+                                            value = FALSE))
             }
             sizeOfList = length(sidebarPanelList)
             sidebarPanelList[[sizeOfList+1]] = inputElement
