@@ -47,7 +47,7 @@ ui = makeUI(uiType)
 
 server <- function(input, output, session) {
     cat("~~~ Starting server ~~~", fill = T)
-    #options(warn = -1)
+    options(warn = -1)
     colorScheme = colorSchemes[[appData$appLayout$colorScheme]]
 
     selectedTab = reactive({
@@ -73,16 +73,15 @@ server <- function(input, output, session) {
 
     observe({
         if (selectedTabItem()$title == "Graph") {
-            selectedTabItem <- selectedTabItem()
-            for (i in 1:selectedTabItem$sidebarChoicesNumber) {
-                sidebarShownInput <- input[[selectedTabItem$sidebarShownIds[i]]]
-                sout(selectedTabItem$sidebarHiddenIds[i])
+            for (i in 1:selectedTabItem()$sidebarChoicesNumber) {
+                sidebarShownInput <- input[[selectedTabItem()$sidebarShownIds[i]]]
+                sout(selectedTabItem()$sidebarHiddenIds[i])
                 if (!is.null(sidebarShownInput) &&
                     sidebarShownInput == "Select") {
-                    shinyjs::show (id = selectedTabItem$sidebarHiddenIds[i], anim = TRUE)
+                    shinyjs::show (id = selectedTabItem()$sidebarHiddenIds[i], anim = TRUE)
                 }
                 else {
-                    shinyjs::hide (id = selectedTabItem$sidebarHiddenIds[i], anim = TRUE)
+                    shinyjs::hide (id = selectedTabItem()$sidebarHiddenIds[i], anim = TRUE)
                 }
 
             }
@@ -107,21 +106,16 @@ server <- function(input, output, session) {
                     # columnOptions = reactive({
                     #     return(sapply(appData$tabs$columnOptions, "[[", tabNumber()))
                     # })
-                    sidebarIds = reactive({
+                    sidebarShownIds = reactive({
                         tabItemsList[[tabNumber()]]$sidebarShownIds
                     })
-                    print("testing")
-                    print(googleChartIds)
                     output[[googleChartIds[1]]] = renderGoogleChart({
-                        sidebarShownIds = tabItemsList[[tabNumber()]]$sidebarShownIds
-                        print(sidebarShownIds)
-                        tab = selectedTab()[[tabNumber()]]
-
                         inputList = makeInputs(appData$tabs$dataTypes[[tabNumber()]],
                                                appData$tabs$lower[[tabNumber()]],
                                                appData$tabs$upper[[tabNumber()]],
-                                               appData$tabs$sidebarKeys[[tabNumber()]])
-                        shinyValueList = combineShinyInputs(isolate(input), sidebarShownIds)
+                                               appData$tabs$sidebarKeys[[tabNumber()]],
+                                               appData$tabs$categories[[tabNumber()]])
+                        shinyValueList = combineShinyInputs(isolate(input), sidebarShownIds())
                         valueList = updateInputs(inputList, shinyValueList)
                         data = AcceptData$new(
                             male = valueList[[1]],
@@ -141,7 +135,6 @@ server <- function(input, output, session) {
                         )
                         data$calculatePrediction()
                         predictedData = data$getPrediction("candleStick")[,c(1,3)]
-                        print(predictedData)
                         chart = shinyGoogleChart(tabNumber(),
                                                  tabItemsList,
                                                  input, appData,predictedData, "candleStickChart",
@@ -150,13 +143,12 @@ server <- function(input, output, session) {
                     })
 
                     output[[googleChartIds[2]]] = renderGoogleChart({
-                        sidebarShownIds = tabItemsList[[tabNumber()]]$sidebarShownIds
-                        tab = selectedTab()[[tabNumber()]]
                         inputList = makeInputs(appData$tabs$dataTypes[[tabNumber()]],
                                                appData$tabs$lower[[tabNumber()]],
                                                appData$tabs$upper[[tabNumber()]],
-                                               appData$tabs$sidebarKeys[[tabNumber()]])
-                        shinyValueList = combineShinyInputs(isolate(input), sidebarShownIds)
+                                               appData$tabs$sidebarKeys[[tabNumber()]],
+                                               appData$tabs$categories[[tabNumber()]])
+                        shinyValueList = combineShinyInputs(isolate(input), sidebarShownIds())
                         valueList = updateInputs(inputList, shinyValueList)
                         data2 = AcceptData$new(
                             male = valueList[[1]],
@@ -176,8 +168,6 @@ server <- function(input, output, session) {
                         )
                         data2$calculatePrediction()
                         predictedData = data2$getPrediction("candleStick")[,c(2,4)]
-                        print(predictedData)
-                        print(googleChartIds)
                         chart = shinyGoogleChart(tabNumber(),
                                                  tabItemsList,
                                                  input, appData,predictedData, "candleStickChart",
@@ -226,19 +216,14 @@ server <- function(input, output, session) {
                     cat("~~~ Leaflet Map ~~~", fill = T)
                     mapOutputId = tabItemDash$mapOutputId
                     leafletMap <- reactive({
-                        selectedTab <- selectedTab()
-                        leafletMap <- leafletMapList[[selectedTab]]
+                        leafletMap <- leafletMapList[[selectedTab()]]
                         return(leafletMap)
-                    })
-                    tabNumber = reactive({
-                        tabItemsList[[selectedTab()]]$tabNumber
                     })
                     year <- reactive({
                         input[[tabItemsList[[tabNumber()]]$sliderId]] - 2000
                     })
 
                     output[[mapOutputId]] <- renderLeaflet({
-                        print(year())
                         leafletMap()$drawMap(year())
                     })
                     cat("~~~ Setting up Info Boxes ~~~", fill = T)

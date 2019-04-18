@@ -42,6 +42,7 @@ TabItemDashGraph <- R6Class(
     dataTypes = NULL,
     lower = NULL,
     upper = NULL,
+    categories = NULL,
     # Download
     downloadLabel = "Download",
     downloadInputId = NULL,
@@ -75,7 +76,8 @@ TabItemDashGraph <- R6Class(
       dataTypes,
       lower,
       upper,
-      numberOfGraphs = 1
+      numberOfGraphs = 1,
+      categories
 
     ){
       super$initialize(title, inputId, tabNumber)
@@ -91,6 +93,7 @@ TabItemDashGraph <- R6Class(
       self$lower = lower
       self$upper = upper
       self$numberOfGraphs = numberOfGraphs
+      self$categories = categories
       self$makeId("graphInput", "graphInputId")
       self$makeId("graphOutput", "graphOutputId")
       self$makeId("googleChartOutput", "googleChartOutputIds", self$numberOfGraphs)
@@ -152,11 +155,22 @@ TabItemDashGraph <- R6Class(
                             min = self$lower[i],
                             max = self$upper[i],
                             value = self$lower[i])
-            } else if(self$dataTypes[i] == "CategoryInput") {
+            } else if(self$dataTypes[i] == "BooleanInput") {
                 inputElement = div(style="display:inline-block; padding-right:15px;",
                                    checkboxInput(inputId = self$sidebarShownIds[i],
                                             label = self$sidebarShownLabels[i],
                                             value = FALSE))
+            } else if(self$dataTypes[i] == "CategoryInput") {
+                choices = self$categories[[i]]
+                newChoices = list()
+                for(index in 1:length(choices)){
+                    newChoices[[index]] = choices[index]
+                }
+                names(newChoices) = choices
+                inputElement = selectInput(inputId = self$sidebarShownIds[i],
+                            label = self$sidebarShownLabels[i],
+                            choices = newChoices,
+                            selected = newChoices[1])
             }
             sizeOfList = length(sidebarPanelList)
             sidebarPanelList[[sizeOfList+1]] = inputElement
