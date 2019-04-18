@@ -38,7 +38,8 @@ for(i in 1:appData$appLayout$subTabs$number){
             dataInput = appData$tabs$dataInput[[i]],
             dataTypes = appData$tabs$dataTypes[[i]],
             lower = appData$tabs$lower[[i]],
-            upper = appData$tabs$upper[[i]]
+            upper = appData$tabs$upper[[i]],
+            numberOfGraphs = appData$tabs$numberOfGraphs[[i]]
         )
     } else if(tabType == "text") {
         tabItemsList[[appData$tabs$inputId[i]]] = TabItemDashText$new(

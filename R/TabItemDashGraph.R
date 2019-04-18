@@ -20,7 +20,8 @@ TabItemDashGraph <- R6Class(
     # Graph
     graphInputId = NULL,
     graphOutputId = NULL,
-    googleChartOutputId = NULL,
+    googleChartOutputIds = c(),
+    numberOfGraphs = 1,
     # Input for Graph
     dataInput = c("userInput", "csvInput", "functionInput"),
     # Dropdown for Graph
@@ -73,7 +74,8 @@ TabItemDashGraph <- R6Class(
       dataInput,
       dataTypes,
       lower,
-      upper
+      upper,
+      numberOfGraphs = 1
 
     ){
       super$initialize(title, inputId, tabNumber)
@@ -88,9 +90,10 @@ TabItemDashGraph <- R6Class(
       self$dataTypes = dataTypes
       self$lower = lower
       self$upper = upper
+      self$numberOfGraphs = numberOfGraphs
       self$makeId("graphInput", "graphInputId")
       self$makeId("graphOutput", "graphOutputId")
-      self$makeId("googleChartOutput", "googleChartOutputId")
+      self$makeId("googleChartOutput", "googleChartOutputIds", self$numberOfGraphs)
       self$makeId("dropdown", "dropdownId")
       self$makeId("shown", "sidebarShownIds", self$sidebarChoicesNumber)
       self$makeId("hidden", "sidebarHiddenIds", self$sidebarChoicesNumber)
@@ -256,7 +259,8 @@ makeMainPanel = function(){
                          self$downloadLabel))
   #d = div(id="series_chart_div", style="width: 900px; height: 500px;")
   # Google Chart Output
-  e = googleChartOutput(outputId=self$googleChartOutputId)
+  e = googleChartOutput(outputId=self$googleChartOutputIds[1])
+  graph2 = googleChartOutput(outputId=self$googleChartOutputIds[2])
 
   if(self$dropdown){
     # Dropdown Menu for Graph
@@ -265,8 +269,8 @@ makeMainPanel = function(){
                        options = list(style="z-index:100;"),
                        choices = self$dropdownChoices,
                        selected = self$dropdownSelected)
-    return(list(a,e))} else {
-      return(list(e))
+    return(list(a,e, graph2))} else {
+      return(list(e, graph2))
     }
 
 }

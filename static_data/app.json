@@ -2,12 +2,12 @@
     "title": "ACute COPD Exacerbation Prediction Tool",
     "appLayout": {
       "mainTabs": {
-        "number": 3,
-        "titles": ["Predict", "About", "Terms"]
+        "number": 1,
+        "titles": ["Predict"]
       },
       "subTabs": {
-        "number":3,
-        "titles":["Predict", "About", "Terms"]
+        "number":1,
+        "titles":["Predict"]
       },
       "colorScheme":"startup"
 
@@ -56,26 +56,29 @@
                            ["Age", "Sex", "None"],
                            ["indirectCost", "directCost", "None"]],
         "chartViewColumnTypes" : ["x-axis", "y-axis", "state", "state", "year", "color",
-                      "size"]
+                      "size"],
+        "numberOfGraphs":2
 
-      },
-      {
-        "title": "About",
-        "inputId": "tab2",
-        "tabType": "text",
-        "tabNumber" : 2,
-        "markdownFileName" : "about.Rmd",
-        "imageId" : "image1",
-        "imFile" : "logos2.png"
-      },
-      {
-        "title": "Terms",
-        "inputId": "tab3",
-        "tabType": "text",
-        "tabNumber" : 3,
-        "markdownFileName" : "disclaimer.rmd",
-        "imageId" : null,
-        "imFile" : null
       }
+
     ]
 }
+
+     // {
+     //  "title": "About",
+     //   "inputId": "tab2",
+      //  "tabType": "text",
+      //  "tabNumber" : 2,
+      //  "markdownFileName" : "about.Rmd",
+      //  "imageId" : "image1",
+      //  "imFile" : "logos2.png"
+     // },
+     // {
+      //  "title": "Terms",
+      //  "inputId": "tab3",
+      //  "tabType": "text",
+      //  "tabNumber" : 3,
+       // "markdownFileName" : "disclaimer.rmd",
+      //  "imageId" : null,
+      //  "imFile" : null
+     // }

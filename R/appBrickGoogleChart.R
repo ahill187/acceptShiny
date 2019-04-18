@@ -1,8 +1,8 @@
 
-shinyGoogleChart = function(tabNumber, tabItemsList, input, appData, data, chartType){
+shinyGoogleChart = function(tabNumber, tabItemsList, input, appData, data, chartType,
+                            googleChartId){
     selectedTabItem = tabItemsList[[tabNumber]]
     sidebarShownIds = selectedTabItem$sidebarShownIds
-    googleChartId = tabItemsList[[tabNumber]]$googleChartOutputId
     year = input[[sidebarShownIds[5]]]
     xAxis = input[[sidebarShownIds[1]]]
     yAxis = input[[sidebarShownIds[2]]]
