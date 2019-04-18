@@ -4,23 +4,23 @@ library(R6)
 library(RColorBrewer)
 
 AppLayout <- R6Class(
-  "AppLayout", 
+  "AppLayout",
   public = list(
-    
+
     numberOfTabs = NULL,
     appTitle = NULL,
     dashboard = TRUE,
-    dashboardColour = "cg-blue",
-    
-    initialize = function(numberOfTabs, appTitle, 
-                          dashboard=T, dashboardColour="cg-blue"){
-      
-      
+    dashboardColour = "posy",
+
+    initialize = function(numberOfTabs, appTitle,
+                          dashboard=T, dashboardColour="posy"){
+
+
       self$numberOfTabs <- numberOfTabs
       self$appTitle <- appTitle
       self$dashboard <- dashboard
       self$dashboardColour <- dashboardColour
     }
-    
+
 ))
 

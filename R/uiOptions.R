@@ -86,7 +86,13 @@ uiNoSidebar =function(){
                 tabItemsList[[1]]$tabItem(),
                 tags$style(type="text/css",
                            ".shiny-output-error {visibility: hidden;}",
-                           ".shiny-output-error:before {visibility: hidden;}")),
+                           ".shiny-output-error:before {visibility: hidden;}"),
+            tags$style(
+                HTML('
+         .well {
+            background-color: #79defd;
+        }')
+            )),
             asList = T)
 
     )
